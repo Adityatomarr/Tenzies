@@ -1,0 +1,59 @@
+main{
+    background-color: #F5F5F5;
+    margin: 5rem;
+    border-radius: 10px;
+    color: #2B283A;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap:4rem;
+    /* max-width: 50%; */
+
+    
+}
+
+h1{
+    text-align: center;
+    font-family: 'Karla';
+    font-size: 4rem;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    letter-spacing: -0.768px;
+    margin-top: 4rem;
+    
+}
+p{
+    color: #4A4E74;
+    text-align: center;
+    font-family: Inter;
+    font-size: 2rem;
+    font-style: normal;
+    font-weight: 400;
+    letter-spacing: -0.393px;
+    margin-top: 1.5rem;
+    width: 600px;
+}
+
+button{
+    width: 12rem;
+    height: 4rem;
+    background-color:#5035FF;
+    color: #FFF;
+    text-align: center;
+    font-family: Karla;
+    font-size:2rem;
+    font-weight: 700;
+    border: none;
+    border-radius: 8px;
+    margin-bottom: 4rem;
+}
+
+.dice_container{
+    display: flex;
+    gap:2rem;
+    width:650px;
+    flex-wrap: wrap;  
+    margin: 0 4rem;
+    justify-content: space-around;
+}
