@@ -8,21 +8,40 @@ function App() {
     
     const [diceFace, setDiceFace] = useState(allNewDice())
     
+    function generateNewDie() {
+        return {
+            value: Math.ceil(Math.random() * 6),
+            isHeld: false,
+            id: nanoid()
+        }
+    }
     function allNewDice(){
         const dieArray = [];
         for(let i = 0 ; i<10;i++){
-            dieArray.push({
-                value : Math.floor(Math.random()*6 + 1),
-                isHeld : false,
-                id: nanoid()
-            })
+            dieArray.push(generateNewDie())
         }
         return dieArray;
     }
 
     function rollDice(){
-        setDiceFace(allNewDice)
+        setDiceFace(prevState=> prevState.map((object) => {
+            return object.isHeld ?
+                object :
+                generateNewDie()
+        }
+            ))
+
     }
+
+    function holdDice(id){
+        // console.log(id)
+        setDiceFace(prevState => prevState.map(object => {
+                return object.id === id ? 
+                   {...object,isHeld:!object.isHeld}:
+                    object
+            }))    
+    }
+   
 
     return(
         <main>
@@ -32,7 +51,7 @@ function App() {
 
             </div>
             <div className='dice_container'>
-            {diceFace.map((num) => <Dice value={num.value} isHeld={num.isHeld} key={num.id}/>)}
+            {diceFace.map((num) => <Dice value={num.value} isHeld={num.isHeld} key={num.id} toggleClick={holdDice} id={num.id}/>)}
             </div>
             <button onClick={rollDice}>Roll</button>
 
