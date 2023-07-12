@@ -7,7 +7,7 @@ export default  function Dice(props){
     }
  
     return(
-        <div className="die" style={styles}>
+        <div className="die" style={styles} onClick={()=>props.toggleClick(props.id)}>
             {props.value}
         </div>
     )
