@@ -1,12 +1,16 @@
-import React ,{useState} from 'react'
+import React ,{useState, useEffect, } from 'react'
 import {nanoid} from "nanoid"
+import Confetti from 'react-confetti'
 
 import './App.css'
 import Dice from './components/Dice.jsx';
 
 function App() {
     
-    const [diceFace, setDiceFace] = useState(allNewDice())
+    const [dice, setDice] = useState(allNewDice())
+    const [tenzies, setTenzies] = useState(false)
+    
+    
     
     function generateNewDie() {
         return {
@@ -24,36 +28,54 @@ function App() {
     }
 
     function rollDice(){
-        setDiceFace(prevState=> prevState.map((object) => {
+        if(!tenzies){    
+            setDice(prevState=> prevState.map((object) => {
             return object.isHeld ?
                 object :
                 generateNewDie()
+            }
+        ))}
+        else{
+            setDice(allNewDice())
+            setTenzies(false)
         }
-            ))
 
     }
 
     function holdDice(id){
         // console.log(id)
-        setDiceFace(prevState => prevState.map(object => {
+        setDice(prevState => prevState.map(object => {
                 return object.id === id ? 
                    {...object,isHeld:!object.isHeld}:
                     object
             }))    
     }
+
+    useEffect(()=>{
+        const allHeld = dice.every(die => die.isHeld)
+        const firstValue = dice[0].value
+        const allSameValue = dice.every(die => die.value === firstValue)
+        if (allHeld && allSameValue) {
+            setTenzies(true)
+            console.log("You won!")
+            
+             
+        }
+    },[dice])
    
 
     return(
         <main>
+            {tenzies && <Confetti/>}
             <div className='main-text'>
                 <h1>Tenzies</h1>
                 <p>Roll until all dice are the same. Click each die to freeze it at its current value between rolls.</p>
 
             </div>
             <div className='dice_container'>
-            {diceFace.map((num) => <Dice value={num.value} isHeld={num.isHeld} key={num.id} toggleClick={holdDice} id={num.id}/>)}
+            {dice.map((num) => <Dice value={num.value} isHeld={num.isHeld} key={num.id} toggleClick={holdDice} id={num.id}/>)}
             </div>
-            <button onClick={rollDice}>Roll</button>
+            <button onClick={rollDice}>{tenzies ? "New Game" :"Roll"}</button>
 
         </main>
     )
